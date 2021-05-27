@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Serverless Voting App</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+</head>
+
+<body>
+    <div id='v_app'>
+        <section class="hero is-medium is-info is-bold">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title is-2">
+                        Serverless Voting App
+                    </h1>
+                </div>
+            </div>
+        </section>
+        <section style='margin-top:40px;'>
+            <div class='columns'>
+                <div class='column is-offset-3'>
+                    <div class='columns'>
+                        <div class='column is-4' v-for="opt in options" style='text-align:center;'>
+                            <div class="card" style='height:100%'>
+                                <div class="card-image">
+                                    <img v-bind:src="opt.image" alt="Placeholder image" width="300px">
+                                </div>
+                                <div class="card-content">
+                                    <div class="content">
+                                        <div class='title is-4'>
+                                            [[ opt.name ]]
+                                        </div>
+                                        <div v-if="showResult" class='title has-background-link-dark has-text-white-ter' style='width: 50%;text-align: center;
+border-radius: 5px;
+margin: auto;
+    margin-bottom: auto;
+margin-bottom: 30px;padding: 5px 0px 5px 0px;'>
+                                            [[ opt.votes ]] VOTES
+                                        </div>
+                                        <div class=''>
+                                            <button v-on:click="vote(opt.ID)" class='button is-info'><b>VOTE</b></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type='text/javascript'>
+    var app = new Vue({
+        el: "#v_app",
+        delimiters: ['[[', ']]'],
+        data: {
+            url_api_options: '/api/options',
+            options: [],
+            showResult: false,
+        },
+        methods: {
+            vote: function(id) {
+                var self = this;
+                console.log(id);
+                axios({
+                    method: 'post',
+                    url: this.url_api_options,
+                    data: {
+                        ID: id
+                    }
+                })
+                .then(self.show);
+            },
+            show:function(){
+                var self = this;
+                self.getOptions();
+                self.showResult = true;
+                console.log(self.options);
+
+            },
+            getOptions: function() {
+                var self = this;
+                axios.get(self.url_api_options).then((response) => {
+                    if (response.status == 200) {
+                        console.log(response.data);
+                        self.options = response.data;
+                    }
+                });
+            }
+        },
+        watch: {},
+        mounted: function() {
+            var self = this;
+            self.getOptions();
+        }
+    });
+</script>
+
+</html>
