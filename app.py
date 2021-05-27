@@ -25,7 +25,8 @@ def get_options():
       data.extend(response.get('Items'))
       start_key = response.get('LastEvaluatedKey', None)
       done = start_key is None
-   return jsonify.dumps(data)
+   return jsonify(data)
 
 if __name__ == '__main__':
+   # os.environ['TABLE_NAME']="apprunner-demo-data"
    app.run(port=8080, host="0.0.0.0")
