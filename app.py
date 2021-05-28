@@ -9,6 +9,7 @@ import decimal
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+AWS_REGION = 'us-east-1'
 
 class DecimalEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -31,7 +32,7 @@ def hello_world():
 @app.route('/api/options', methods=['GET', 'OPTIONS'])
 def get_options():
     data = []
-    dynamodb = boto3.resource('dynamodb', region_name='ap-southeast-1')
+    dynamodb = boto3.resource('dynamodb', region_name=AWS_REGION)
     table = dynamodb.Table(os.getenv("TABLE_NAME"))
     scan_kwargs = {}
     done = False
@@ -56,7 +57,7 @@ def vote_option():
         response['message'] = "Malformed request"
         return jsonify(response), 400
 
-    dynamodb = boto3.resource('dynamodb', region_name='ap-southeast-1')
+    dynamodb = boto3.resource('dynamodb', region_name=AWS_REGION)
     table = dynamodb.Table(os.getenv("TABLE_NAME"))
     table.update_item(
         Key={
