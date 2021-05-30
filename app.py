@@ -6,11 +6,12 @@ import json
 from flask.templating import render_template
 import decimal
 
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 AWS_REGION = 'us-east-1'
-
+MODE_DEBUG = False
 class DecimalEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, decimal.Decimal):
@@ -18,7 +19,7 @@ class DecimalEncoder(json.JSONEncoder):
         return super(DecimalEncoder, self).default(obj)
 
 
-app = Flask(__name__, template_folder="html")
+app = Flask(__name__, template_folder="html", static_folder="html/static")
 app.json_encoder = DecimalEncoder
 
 MODE = "LOCAL"
@@ -76,4 +77,5 @@ if __name__ == '__main__':
     MODE = os.environ['MODE'] if "MODE" in os.environ else "LOCAL"
     if MODE == "LOCAL":
         os.environ['TABLE_NAME'] = "apprunner-demo-data"
-    app.run(port=8080, host="0.0.0.0")
+        MODE_DEBUG = True
+    app.run(port=8080, host="0.0.0.0", debug=MODE_DEBUG)

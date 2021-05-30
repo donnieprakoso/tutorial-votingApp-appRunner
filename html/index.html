@@ -4,29 +4,36 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Serverless Voting App</title>
+    <title>Voting Application Demo</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
 </head>
 
 <body>
     <div id='v_app'>
-        <section class="hero is-medium is-info is-bold">
+        <section class="hero is-small is-warning is-bold">
             <div class="hero-body">
                 <div class="container">
                     <h1 class="title is-2">
-                        Serverless Voting App
+                        Hungry Eat What
                     </h1>
+                    <h2 class='subtitle is-5'>
+                        Voting Application Demo                        
+                    </h2>
+                    <div>
+                        <a target='_blank' href='https://github.com/donnieprakoso/tutorial-awsAppRunner'>Github</a>
+                    </div>
                 </div>
             </div>
         </section>
         <section style='margin-top:40px;'>
             <div class='columns'>
-                <div class='column is-offset-3'>
+                <div class='column is-offset-2'>
                     <div class='columns'>
-                        <div class='column is-4' v-for="opt in options" style='text-align:center;'>
+                        <div class='column is-5' v-for="opt in options" style='text-align:center;'>
                             <div class="card" style='height:100%'>
                                 <div class="card-image">
-                                    <img v-bind:src="opt.image" alt="Placeholder image" width="300px">
+                                    <img v-bind:src="opt.image" alt="Placeholder image" width="640px">
+                                    <p v-html="opt.image_copyright"></p>
                                 </div>
                                 <div class="card-content">
                                     <div class="content">
@@ -41,7 +48,7 @@ margin-bottom: 30px;padding: 5px 0px 5px 0px;'>
                                             [[ opt.votes ]] VOTES
                                         </div>
                                         <div class=''>
-                                            <button v-on:click="vote(opt.ID)" class='button is-info'><b>VOTE</b></button>
+                                            <button v-on:click="vote(opt.ID)" class='button is-warning'><b>VOTE</b></button>
                                         </div>
                                     </div>
                                 </div>
