@@ -51,6 +51,7 @@ def get_options():
 @app.route('/api/options', methods=['POST'])
 def vote_option():
     content = request.json
+    logging.info("Returning options")
     logging.info("Request received: {}".format(content))
 
     response = {}
