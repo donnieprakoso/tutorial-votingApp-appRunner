@@ -3,7 +3,7 @@
   {
     "image": "/static/crystal-jo-TWTxHN2QIGc-unsplash.jpg",
     "image_copyright":"Photo by <a href="https://unsplash.com/@crystalsjo?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Crystal Jo</a> on <a href="https://unsplash.com/s/photos/ramen-noodles?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>",
-    "name": "Neovim",
+    "name": "Ramen",
     "ID": "cc52be460376b05bf145c07d9f893387",
     "votes": 0
   }
