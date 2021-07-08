@@ -1,0 +1,17 @@
+version: 1.0
+runtime: python3 
+build:
+  commands:
+    build:        
+      - pip install -r requirements.txt
+run:
+  command: python app.py
+  env:
+    - name: APP_AWS_REGION
+      value: "us-east-1"
+    - name: APP_DDB_TABLE_NAME
+      value: "apprunner-demo-data"
+    - name: APP_MODE
+      value: "PROD"      
+    - name: APP_PORT
+      value: 8080      

@@ -10,8 +10,16 @@ import decimal
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-AWS_REGION = 'us-east-1'
-MODE_DEBUG = False
+'''
+Defining all variables that need to be retrieved from environment variables
+'''
+APP_AWS_REGION = os.environ['AWS_REGION'] if "AWS_REGION" in os.environ else "us-east-1"
+APP_DDB_TABLE_NAME = os.environ["TABLE_NAME"] if "TABLE_NAME" in os.environ else "DEV-apprunner-demo-data"
+APP_PORT = os.environ["APP_PORT"] if "APP_PORT" in os.environ else 8080
+APP_MODE = os.environ['MODE_APP'] if "MODE_APP" in os.environ else "LOCAL"
+APP_DEBUG = True if APP_MODE == "LOCAL" else False
+
+
 class DecimalEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, decimal.Decimal):
@@ -22,9 +30,6 @@ class DecimalEncoder(json.JSONEncoder):
 app = Flask(__name__, template_folder="html", static_folder="html/static")
 app.json_encoder = DecimalEncoder
 
-MODE = "LOCAL"
-
-
 @app.route('/')
 def hello_world():
     return render_template("index.html")
@@ -33,7 +38,7 @@ def hello_world():
 @app.route('/api/options', methods=['GET', 'OPTIONS'])
 def get_options():
     data = []
-    dynamodb = boto3.resource('dynamodb', region_name=AWS_REGION)
+    dynamodb = boto3.resource('dynamodb', region_name=APP_AWS_REGION)
     table = dynamodb.Table(os.getenv("TABLE_NAME"))
     scan_kwargs = {}
     done = False
@@ -59,7 +64,7 @@ def vote_option():
         response['message'] = "Malformed request"
         return jsonify(response), 400
 
-    dynamodb = boto3.resource('dynamodb', region_name=AWS_REGION)
+    dynamodb = boto3.resource('dynamodb', region_name=APP_AWS_REGION)
     table = dynamodb.Table(os.getenv("TABLE_NAME"))
     table.update_item(
         Key={
@@ -73,10 +78,5 @@ def vote_option():
     response['message'] = "Request processed"
     return jsonify(response), 200
 
-
 if __name__ == '__main__':
-    MODE = os.environ['MODE'] if "MODE" in os.environ else "LOCAL"
-    if MODE == "LOCAL":
-        os.environ['TABLE_NAME'] = "apprunner-demo-data"
-        MODE_DEBUG = True
-    app.run(port=8080, host="0.0.0.0", debug=MODE_DEBUG)
+    app.run(port=APP_PORT, host="0.0.0.0", debug=APP_DEBUG)
