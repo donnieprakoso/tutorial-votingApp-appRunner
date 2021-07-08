@@ -6,12 +6,13 @@ build:
       - pip install -r requirements.txt
 run:
   command: python app.py
+  network:
+    port: 9090
+    env: APP_PORT  
   env:
     - name: APP_AWS_REGION
       value: "us-east-1"
     - name: APP_DDB_TABLE_NAME
       value: "apprunner-demo-data"
     - name: APP_MODE
-      value: "PROD"      
-    - name: APP_PORT
-      value: 8080      
+      value: "PROD"

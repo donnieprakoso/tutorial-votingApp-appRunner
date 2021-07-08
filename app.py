@@ -14,7 +14,7 @@ logger.setLevel(logging.INFO)
 Defining all variables that need to be retrieved from environment variables
 '''
 APP_AWS_REGION = os.environ['APP_AWS_REGION'] if "APP_AWS_REGION" in os.environ else "us-east-1"
-APP_DDB_TABLE_NAME = os.environ["APP_DDB_TABLE_NAME"] if "APP_DDB_TABLE_NAME" in os.environ else "DEV-apprunner-demo-data"
+APP_DDB_TABLE_NAME = os.environ["APP_DDB_TABLE_NAME"] if "APP_DDB_TABLE_NAME" in os.environ else "apprunner-demo-data"
 APP_PORT = os.environ["APP_PORT"] if "APP_PORT" in os.environ else 8080
 APP_MODE = os.environ['APP_MODE'] if "APP_MODE" in os.environ else "LOCAL"
 APP_DEBUG = True if APP_MODE == "LOCAL" else False
