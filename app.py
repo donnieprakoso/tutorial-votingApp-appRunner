@@ -39,7 +39,7 @@ def hello_world():
 def get_options():
     data = []
     dynamodb = boto3.resource('dynamodb', region_name=APP_AWS_REGION)
-    table = dynamodb.Table(os.getenv("TABLE_NAME"))
+    table = dynamodb.Table(APP_DDB_TABLE_NAME)
     scan_kwargs = {}
     done = False
     start_key = None
@@ -65,7 +65,7 @@ def vote_option():
         return jsonify(response), 400
 
     dynamodb = boto3.resource('dynamodb', region_name=APP_AWS_REGION)
-    table = dynamodb.Table(os.getenv("TABLE_NAME"))
+    table = dynamodb.Table(APP_DDB_TABLE_NAME)
     table.update_item(
         Key={
             'ID': content['ID'],
